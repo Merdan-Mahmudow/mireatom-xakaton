@@ -39,15 +39,15 @@ document.addEventListener('DOMContentLoaded', () => {
 				body: formData,
 			})
 			if (!response.ok) {
-				throw new Error(`HTTP ошибка! статус: ${response.status}`)
+				throw new Error(`HTTP ошибка! status: ${response.status}`)
 			}
 			const result = await response.json()
-			if (result.статус === 'успех') {
+			if (result.status === 'success') {
 				alert('Файл успешно загружен!')
 				loadFiles()
 				fileInput.value = '' // Очистить поле ввода файла
 			} else {
-				alert(`Ошибка: ${result.детали}`)
+				alert(`Ошибка: ${result.details}`)
 			}
 		} catch (error) {
 			alert(`Ошибка: ${error.message}`)
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		try {
 			const response = await fetch('http://skyrodev.ru:8000/api/v1/latex/get-all-files')
 			if (!response.ok) {
-				throw new Error(`HTTP ошибка! статус: ${response.status}`)
+				throw new Error(`HTTP ошибка! status: ${response.status}`)
 			}
 			const result = await response.json()
 			fileList.innerHTML = ''
@@ -90,10 +90,10 @@ document.addEventListener('DOMContentLoaded', () => {
 				`http://skyrodev.ru:8000/api/v1/latex/get-latex?file_name=${fileName}`
 			)
 			if (!response.ok) {
-				throw new Error(`HTTP ошибка! статус: ${response.status}`)
+				throw new Error(`HTTP ошибка! status: ${response.status}`)
 			}
 			const result = await response.json()
-			content.innerHTML = result.латекс_контент
+			content.innerHTML = result.latex_content
 		} catch (error) {
 			console.error('Ошибка загрузки содержимого файла:', error)
 		}
@@ -117,10 +117,10 @@ document.addEventListener('DOMContentLoaded', () => {
 				}),
 			})
 			if (!response.ok) {
-				throw new Error(`HTTP ошибка! статус: ${response.status}`)
+				throw new Error(`HTTP ошибка! status: ${response.status}`)
 			}
 			const result = await response.json()
-			alert(result.детали)
+			alert(result.details)
 		} catch (error) {
 			console.error('Ошибка сохранения содержимого файла:', error)
 		}
@@ -278,10 +278,10 @@ document.addEventListener('DOMContentLoaded', () => {
 				}
 			)
 			if (!response.ok) {
-				throw new Error(`HTTP ошибка! статус: ${response.status}`)
+				throw new Error(`HTTP ошибка! status: ${response.status}`)
 			}
 			const result = await response.json()
-			alert(result.детали)
+			alert(result.details)
 			loadFiles() // Перезагрузить список файлов
 		} catch (error) {
 			console.error('Ошибка удаления файла:', error)
