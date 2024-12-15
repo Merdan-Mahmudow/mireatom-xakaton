@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Конвертация LaTeX</title>
+    <link rel="stylesheet" href="{{url_for('static', path='css/convert.css')}}">
+    <link rel="icon" href="{{url_for('static', path='photo/ROS.png')}}" type="image/png">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="../photo/ROS.png" alt="Росатом" class="logo">
+            <h1>MIRE/A\TOM команда "Байт-team"</h1>
+        </div>
+    </header>
+
+    <div class="convert-container">
+        <h2>Конвертация LaTeX в Word</h2>
+        <textarea id="latexInput" rows="10" cols="50" placeholder="Введите LaTeX код здесь..."></textarea>
+        <br>
+        <button onclick="convertToWord()">Конвертировать в Word</button>
+        <h3>Результат:</h3>
+        <div id="result" class="result"></div>
+    </div>
+    <script>
+        async function convertToWord() {
+            const latexCode = document.getElementById('latexInput').value;
+            if (!latexCode) {
+                alert('Пожалуйста, введите LaTeX код.');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:8000/api/v1/latex/convert-latex-to-word', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ latex_code: latexCode })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ошибка! статус: ${response.status}`);
+                }
+
+                const result = await response.json();
+                document.getElementById('result').innerHTML = result.word_content;
+            } catch (error) {
+                console.error('Ошибка конвертации:', error);
+            }
+        }
+    </script>
+</body>
+</html>

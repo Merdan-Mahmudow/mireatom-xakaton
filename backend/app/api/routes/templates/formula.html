@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вставка формул</title>
+    <link rel="stylesheet" href="/static/css/formula.css">
+    <link rel="icon" href="/static/photo/ROS.png" type="image/png">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="/staticphoto/ROS.png" alt="Росатом" class="logo">
+            <h1>MIRE/A\TOM команда "Байт-team"</h1>
+        </div>
+    </header>
+
+    <div class="formula-container">
+        <h2>Вставка формул</h2>
+        <textarea id="formulaInput" rows="10" cols="50"></textarea>
+        <br>
+        <button onclick="insertFormula()">Вставить формулу</button>
+    </div>
+    <script>
+        function insertFormula() {
+            const formula = document.getElementById('formulaInput').value;
+            if (formula) {
+                // Здесь мы можем добавить логику для отображения формулы в основном редакторе
+                alert(`Формула: ${formula}`);
+                // Закрываем модальное окно
+                window.close();
+            }
+        }
+    </script>
+</body>
+</html>

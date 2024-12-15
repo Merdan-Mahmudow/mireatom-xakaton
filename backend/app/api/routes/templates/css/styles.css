@@ -1,0 +1,350 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    color: #333;
+}
+
+header {
+    width: 100%;
+    background-color: #003366; /* Темно-синий цвет */
+    color: #fff;
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+header .logo {
+    width: 40px; /* Ограничение размера логотипа */
+    height: 40px;
+    margin-right: 10px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+    display: inline;
+}
+
+.container {
+    display: flex;
+    width: 80%;
+    height: calc(100vh - 80px); /* Вычитаем высоту заголовка */
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.sidebar {
+    width: 20%;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.upload-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.upload-label {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.upload-label:hover {
+    background-color: #e9ecef;
+}
+
+.upload-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+}
+
+.upload-label span {
+    color: #333;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #444;
+    cursor: pointer;
+}
+
+.sidebar ul li:hover {
+    background-color: #444;
+}
+
+.delete-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.delete-button img {
+    width: 16px;
+    height: 16px;
+}
+
+.main-content {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #e9ecef;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.toolbar-button {
+    background-color: transparent;
+    border: none;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+.toolbar-button.active {
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 4px;
+}
+
+.toolbar-button img {
+    width: 24px;
+    height: 24px;
+}
+
+.toolbar-button.save-button {
+    background-color: #003366;
+    color: #fff;
+    border-radius: 4px;
+    padding: 10px 20px;
+}
+
+.font-select {
+    margin: 5px;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    min-height: 300px; /* Минимальная высота для редактора текста */
+    font-size: 16px; /* Начальный размер шрифта */
+    font-family: Arial, sans-serif; /* Начальный шрифт */
+}
+
+.content img {
+    max-width: 100%;
+    height: auto;
+}
+
+.content table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.content table, th, td {
+    border: 1px solid #000;
+}
+
+.content th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+.section__button {
+    background-color: transparent;
+    border: none;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+.section__button.active {
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 4px;
+}
+
+.section__button img {
+    width: 24px;
+    height: 24px;
+}
+
+.modal{
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    cursor: pointer;
+    padding: 30px;
+    overflow-y: auto;
+  }
+  
+  .modal__main{
+    position: relative;
+    max-width: 600px;
+    background-color: azure;
+    margin: auto;
+    color: black;
+    border-radius: 16px;
+    padding: 25px;
+    cursor: default;
+  }
+  
+  .modal__title{
+    margin-bottom: 25px;
+  }
+  
+  .modal__close{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    outline: 1px solid transparent;
+    outline-offset: 3px;
+    transition: outline-color .15s ease-in-out;
+    border-radius: 3px;
+    padding: 0;
+    text-align: center;
+    display: block;
+    width: 30px;
+    height: 30px;
+  }
+  
+  .modal__close:focus-visible{
+    outline-color: blue;
+  }
+
+  .modal__group{
+    position: relative;
+    max-width: 550px;
+    padding: 15px;
+  }
+
+  .modal__group1{
+    position: relative;
+    max-width: 550px;
+    padding: 15px;
+    display: none;
+  }
+
+  .modal__group2{
+    position: relative;
+    max-width: 550px;
+    padding: 15px;
+  }
+
+  .modal__group3{
+    position: relative;
+    max-width: 550px;
+    padding: 15px;
+    display: none;
+  }
+
+  .modal__group__btn {
+    background-color: transparent;
+    border: 2px solid #172554;
+    color: rgb(0, 0, 0);
+    font-weight: 700;
+    padding: 10px 20px;
+    cursor: pointer;
+    outline: 1px solid transparent;
+    outline-offset: 1px;
+    transition: background-color .2s ease-in-out, color .2s ease-in-out;
+    font-size: 20px;
+  }
+
+  .modal__group1__btn {
+    background-color: transparent;
+    border: 2px solid #172554;
+    color: rgb(0, 0, 0);
+    font-weight: 700;
+    padding: 10px 20px;
+    cursor: pointer;
+    outline: 1px solid transparent;
+    outline-offset: 1px;
+    transition: background-color .2s ease-in-out, color .2s ease-in-out;
+    font-size: 20px;
+  }
+
+  .modal__group2__btn {
+    background-color: transparent;
+    border: 2px solid #172554;
+    color: rgb(0, 0, 0);
+    font-weight: 700;
+    padding: 10px 20px;
+    cursor: pointer;
+    outline: 1px solid transparent;
+    outline-offset: 1px;
+    transition: background-color .2s ease-in-out, color .2s ease-in-out;
+    font-size: 20px;
+  }
+
+  .modal__group3__btn {
+    background-color: transparent;
+    border: 2px solid #172554;
+    color: rgb(0, 0, 0);
+    font-weight: 700;
+    padding: 10px 20px;
+    cursor: pointer;
+    outline: 1px solid transparent;
+    outline-offset: 1px;
+    transition: background-color .2s ease-in-out, color .2s ease-in-out;
+    font-size: 20px;
+  }

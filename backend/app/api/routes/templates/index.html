@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIRE/A\TOM</title>
+    <link rel="stylesheet" href="{{url_for('static', path='css/styles.css')}}">
+    <link rel="icon" href="/static/photo/ROS.png" type="image/png">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="/static/photo/ROS.png" alt="Росатом" class="logo">
+            <h1>MIRE/A\TOM команда "Байт-team"</h1>
+        </div>
+    </header>
+    <div class="container">
+        <div class="sidebar">
+            <h2>WORD</h2>
+            <div class="upload-form">
+                <label for="fileInput" class="upload-label">
+                    <img src="/static/photo/paperclip.svg" alt="Upload" class="upload-icon">
+                    <span>Загрузить</span>
+                </label>
+                <input type="file" id="fileInput" accept=".docx, .doc" required style="display: none;">
+            </div>
+            <ul id="fileList">
+                <!-- Файлы будут добавляться здесь -->
+            </ul>
+        </div>
+        <div class="main-content">
+            <div class="toolbar">
+                <button class="toolbar-button" id="boldButton" onclick="toggleBold()"><b>B</b></button>
+                <button class="toolbar-button" id="italicButton" onclick="toggleItalic()"><i>I</i></button>
+                <button class="toolbar-button" id="underlineButton" onclick="toggleUnderline()"><u>U</u></button>
+                <button class="toolbar-button" id="strikethroughButton" onclick="toggleStrikethrough()"><s>S</s></button>
+                <button class="toolbar-button" id="subscriptButton" onclick="toggleSubscript()">X<sub>2</sub></button>
+                <button class="toolbar-button" id="superscriptButton" onclick="toggleSuperscript()">X<sup>2</sup></button>
+                <button class="toolbar-button" id="alignLeftButton" onclick="alignLeft()"><img src="/static/photo/align-left.svg" alt="Выравнивание по левому краю"></button>
+                <button class="toolbar-button" id="alignCenterButton" onclick="alignCenter()"><img src="/static/photo/align-center.svg" alt="Выравнивание по центру"></button>
+                <button class="toolbar-button" id="alignRightButton" onclick="alignRight()"><img src="/static/photo/align-right.svg" alt="Выравнивание по правому краю"></button>
+                <button class="toolbar-button" id="alignJustifyButton" onclick="alignJustify()"><img src="/static/photo/align-justify.svg" alt="Выравнивание по ширине"></button>
+                <button class="toolbar-button" id="orderedListButton" onclick="createOrderedList()"><img src="/static/photo/ordered-list.svg" alt="Нумерованный список"></button>
+                <button class="toolbar-button" id="unorderedListButton" onclick="createUnorderedList()"><img src="/static/photo/unordered-list.svg" alt="Маркированный список"></button>
+                <button class="toolbar-button" id="headingButton" onclick="createHeading()"><img src="/static/photo/heading.svg" alt="Заголовок"></button>
+                <button class="toolbar-button" id="linkButton" onclick="createLink()"><img src="/static/photo/link.svg" alt="Ссылка"></button>
+                <button class="toolbar-button" id="imageButton" onclick="insertImage()"><img src="/static/photo/image.svg" alt="Фотография"></button>
+                <button class="toolbar-button" id="tableButton" onclick="createTable()"><img src="/static/photo/table.svg" alt="Таблица"></button>
+                <button class="toolbar-button" id="codeButton" onclick="insertCode()"><img src="/static/photo/code.svg" alt="Код"></button>
+                <button class="section__button section__button1"><img src="/static/photo/formula.svg" alt="Формула"></button>
+                <button class="toolbar-button" id="convertButton" onclick="openConvertPage()"><img src="/static/photo/convert.svg" alt="Конвертация LaTeX в Word"></button>
+                <button class="toolbar-button" id="instructionButton" onclick="openInstructionPage()"><img src="/static/photo/instruction.svg" alt="Инструктаж/Режим обучения"></button>
+                <select id="fontSizeSelect" class="font-select" onchange="changeFontSize()">
+                    <option value="1">8</option>
+                    <option value="2">10</option>
+                    <option value="3">12</option>
+                    <option value="4">14</option>
+                    <option value="5">18</option>
+                    <option value="6">24</option>
+                    <option value="7">36</option>
+                </select>
+                <select id="fontFamilySelect" class="font-select" onchange="changeFontFamily()">
+                    <option value="Arial">Arial</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Courier New">Courier New</option>
+                    <option value="Verdana">Verdana</option>
+                    <option value="Georgia">Georgia</option>
+                </select>
+                <button class="toolbar-button save-button" onclick="saveContent()">Сохранить</button>
+            </div>
+            <div class="modal">
+                <div class="modal__main">
+                  <h2 class="modal__title">Редактор формул</h2>
+                  <div class="modal__container">
+                    <div class="modal_group">
+                        <button class="modal__group1__btn">abc</button>
+                        <div class="modal__group1">
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>a</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>b</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>c</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>d</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>e</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>f</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>g</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>h</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>i</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>j</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>k</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>l</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>m</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>n</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>o</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>p</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>q</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>r</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>s</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>t</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>u</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>v</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>w</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>x</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>y</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>z</b></button>
+                        </div>
+                        <div class="modal__group2">
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>|abc|</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>𝄖</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>√</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>▢²</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>10^▢</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>ƒ</b></button>
+                        </div>
+                        <button class="modal__group3__btn">grec</button>
+                        <div class="modal__group3">
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>α</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>β</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>γ</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>δ</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>ε</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>ζ</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>η</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>θ</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>ι</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>κ</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>λ</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>μ</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>ν</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>ξ</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>ο</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>π</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>ρ</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>ς</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>τ</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>υ</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>φ</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>χ</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>ψ</b></button>
+                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>ω</b></button>
+                        </div>
+                    </div>
+                    <div class="content" contenteditable="true" id="content">
+                        <!-- Содержимое файла будет отображаться здесь -->
+                    </div>
+                  </div>
+            
+                  <button class="modal__close">&#10006;</button>
+            
+                </div>
+              </div>
+            <div class="content" contenteditable="true" id="content">
+                <!-- Содержимое файла будет отображаться здесь -->
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
