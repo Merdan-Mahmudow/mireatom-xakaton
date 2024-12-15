@@ -1,36 +1,213 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Вставка формул</title>
     <link rel="stylesheet" href="/static/css/formula.css">
     <link rel="icon" href="/static/photo/ROS.png" type="image/png">
+    <script src="/static/js/polyfill.min.js"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.0/math.min.js"></script>
+    <style>
+        .keyboard {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        .keyboard button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .formula-display {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            min-height: 100px;
+            position: relative;
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            overflow: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .cursor {
+            position: absolute;
+            border-right: 2px solid black;
+            height: 20px;
+            width: 1px;
+            top: 0;
+            animation: blink 0.5s step-end infinite;
+        }
+        @keyframes blink {
+            50% {
+                border-color: transparent;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
         <div class="logo-container">
-            <img src="/staticphoto/ROS.png" alt="Росатом" class="logo">
+            <img src="/static/photo/ROS.png" alt="Росатом" class="logo">
             <h1>MIRE/A\TOM команда "Байт-team"</h1>
         </div>
     </header>
 
     <div class="formula-container">
         <h2>Вставка формул</h2>
-        <textarea id="formulaInput" rows="10" cols="50"></textarea>
-        <br>
+        <div class="formula-display" id="formulaDisplay" contenteditable="true" spellcheck="false" aria-placeholder="Введите формулу..."></div>
+        <div class="keyboard">
+            <button onclick="insertSymbol('0')">0</button>
+            <button onclick="insertSymbol('1')">1</button>
+            <button onclick="insertSymbol('2')">2</button>
+            <button onclick="insertSymbol('3')">3</button>
+            <button onclick="insertSymbol('4')">4</button>
+            <button onclick="insertSymbol('5')">5</button>
+            <button onclick="insertSymbol('6')">6</button>
+            <button onclick="insertSymbol('7')">7</button>
+            <button onclick="insertSymbol('8')">8</button>
+            <button onclick="insertSymbol('9')">9</button>
+            <button onclick="insertSymbol('+')">+</button>
+            <button onclick="insertSymbol('-')">-</button>
+            <button onclick="insertSymbol('*')">*</button>
+            <button onclick="insertSymbol('/')">/</button>
+            <button onclick="insertSymbol('^')">^</button>
+            <button onclick="insertFraction()">дробь</button>
+            <button onclick="insertSymbol('\\sqrt{}')">√</button>
+            <button onclick="insertSymbol('\\sin{}')">sin</button>
+            <button onclick="insertSymbol('\\cos{}')">cos</button>
+            <button onclick="insertSymbol('\\tan{}')">tan</button>
+            <button onclick="insertSymbol('\\log{}')">log</button>
+            <button onclick="insertSymbol('\\ln{}')">ln</button>
+            <button onclick="insertSymbol('\\int')">∫</button>
+            <button onclick="insertSum()">∑</button>
+            <button onclick="insertLimit()">lim</button>
+            <button onclick="insertSymbol('\\infty')">∞</button>
+            <button onclick="insertSymbol('\\partial')">∂</button>
+            <button onclick="insertSymbol('\\nabla')">∇</button>
+            <button onclick="insertSymbol('\\cdot')">⋅</button>
+            <button onclick="insertSymbol('\\times')">×</button>
+            <button onclick="insertSymbol('\\div')">÷</button>
+            <button onclick="insertSymbol('\\pm')">±</button>
+            <button onclick="insertSymbol('\\mp')">∓</button>
+            <button onclick="insertSymbol('\\neq')">≠</button>
+            <button onclick="insertSymbol('\\approx')">≈</button>
+            <button onclick="insertSymbol('\\equiv')">≡</button>
+            <button onclick="insertSymbol('\\leq')">≤</button>
+            <button onclick="insertSymbol('\\geq')">≥</button>
+            <button onclick="insertSymbol('\\subset')">⊂</button>
+            <button onclick="insertSymbol('\\supset')">⊃</button>
+            <button onclick="insertSymbol('\\cup')">∪</button>
+            <button onclick="insertSymbol('\\cap')">∩</button>
+            <button onclick="insertSymbol('\\in')">∈</button>
+            <button onclick="insertSymbol('\\notin')">∉</button>
+            <button onclick="insertSymbol('\\forall')">∀</button>
+            <button onclick="insertSymbol('\\exists')">∃</button>
+            <button onclick="insertSymbol('\\emptyset')">∅</button>
+            <button onclick="insertSymbol('\\mathbb{R}')">ℝ</button>
+            <button onclick="insertSymbol('\\mathbb{C}')">ℂ</button>
+            <button onclick="insertSymbol('\\mathbb{N}')">ℕ</button>
+            <button onclick="insertSymbol('\\mathbb{Z}')">ℤ</button>
+            <button onclick="insertSymbol('\\mathbb{Q}')">ℚ</button>
+        </div>
+        <button onclick="calculateFormula()">Вычислить</button>
         <button onclick="insertFormula()">Вставить формулу</button>
     </div>
+
     <script>
+        let formula = '';
+        let cursorPosition = 0;
+
+        // Вставка символа в текущее положение курсора
+        function insertSymbol(symbol) {
+            formula = formula.slice(0, cursorPosition) + symbol + formula.slice(cursorPosition);
+            cursorPosition += symbol.length;
+            renderFormula();
+        }
+
+        // Вставка дроби
+        function insertFraction() {
+            formula = formula.slice(0, cursorPosition) + '\\frac{}{}' + formula.slice(cursorPosition);
+            cursorPosition += 7; // Перемещение курсора в числитель
+            renderFormula();
+        }
+
+        // Вставка суммы
+        function insertSum() {
+            formula = formula.slice(0, cursorPosition) + '\\sum_{}^{}' + formula.slice(cursorPosition);
+            cursorPosition += 7; // Перемещение курсора в пределы суммы
+            renderFormula();
+        }
+
+        // Вставка предела
+        function insertLimit() {
+            formula = formula.slice(0, cursorPosition) + '\\lim_{→}' + formula.slice(cursorPosition);
+            cursorPosition += 7; // Перемещение курсора в предел
+            renderFormula();
+        }
+
+        // Обновление отображения формулы
+        function renderFormula() {
+            const formulaDisplay = document.getElementById('formulaDisplay');
+            formulaDisplay.innerHTML = `\\(${formula}\\)`; // Экранирование формулы
+            MathJax.typesetPromise([formulaDisplay]).then(() => {
+                updateCursorPosition();
+            });
+        }
+
+        // Обновление позиции курсора
+        function updateCursorPosition() {
+            const formulaDisplay = document.getElementById('formulaDisplay');
+            const cursor = document.createElement('div');
+            cursor.className = 'cursor';
+            cursor.style.left = `${cursorPosition * 10}px`; // Прокачка курсора
+            formulaDisplay.appendChild(cursor);
+        }
+
+        // Вычисление формулы
+        function calculateFormula() {
+            try {
+                const result = math.evaluate(formula);
+                alert(`Результат: ${result}`);
+            } catch (error) {
+                alert('Ошибка при вычислении формулы');
+            }
+        }
+
+        // Вставка формулы на главную страницу
         function insertFormula() {
-            const formula = document.getElementById('formulaInput').value;
             if (formula) {
-                // Здесь мы можем добавить логику для отображения формулы в основном редакторе
-                alert(`Формула: ${formula}`);
-                // Закрываем модальное окно
+                window.opener.insertFormula(formula, cursorPosition);
                 window.close();
             }
         }
+
+        // Обработчик клавиш
+        document.addEventListener('keydown', (event) => {
+            if (event.key >= '0' && event.key <= '9') {
+                insertSymbol(event.key);
+            } else if (event.key === 'Backspace') {
+                if (cursorPosition > 0) {
+                    formula = formula.slice(0, cursorPosition - 1) + formula.slice(cursorPosition);
+                    cursorPosition--;
+                    renderFormula();
+                }
+            } else if (event.key === 'ArrowLeft' && cursorPosition > 0) {
+                cursorPosition--;
+                renderFormula();
+            } else if (event.key === 'ArrowRight' && cursorPosition < formula.length) {
+                cursorPosition++;
+                renderFormula();
+            } else if (event.key === 'Enter') {
+                insertFormula();
+            }
+        });
     </script>
 </body>
 </html>

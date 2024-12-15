@@ -24,3 +24,7 @@ async def convert_html_content(requset: Request):
 @router.get("/instructions")
 async def instructions_html_conent(requset: Request):
     return templates.TemplateResponse("instruction.html", {"request": requset})
+
+@router.get("/graph")
+async def graph_html_content(request: Request):
+    return templates.TemplateResponse("graf.html", {"request": request})

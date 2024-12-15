@@ -1,4 +1,4 @@
-// scripts.js
+// script.js
 document.addEventListener('DOMContentLoaded', () => {
 	const content = document.getElementById('content')
 	const fileList = document.getElementById('fileList')
@@ -42,12 +42,12 @@ document.addEventListener('DOMContentLoaded', () => {
 				throw new Error(`HTTP ошибка! статус: ${response.status}`)
 			}
 			const result = await response.json()
-			if (result.status === 'success') {
+			if (result.статус === 'успех') {
 				alert('Файл успешно загружен!')
 				loadFiles()
 				fileInput.value = '' // Очистить поле ввода файла
 			} else {
-				alert(`Ошибка: ${result.details}`)
+				alert(`Ошибка: ${result.детали}`)
 			}
 		} catch (error) {
 			alert(`Ошибка: ${error.message}`)
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				throw new Error(`HTTP ошибка! статус: ${response.status}`)
 			}
 			const result = await response.json()
-			alert(result.details)
+			alert(result.детали)
 		} catch (error) {
 			console.error('Ошибка сохранения содержимого файла:', error)
 		}
@@ -247,15 +247,15 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	window.openFormulaPage = () => {
-		window.open('formula.html', '_blank')
+		window.open('http://skyrodev.ru:8000/formula', '_blank')
 	}
 
 	window.openConvertPage = () => {
-		window.open('convert.html', '_blank')
+		window.open('http://skyrodev.ru:8000/convert', '_blank')
 	}
 
 	window.openInstructionPage = () => {
-		window.open('instruction.html', '_blank')
+		window.open('http://skyrodev.ru:8000/instruction', '_blank')
 	}
 
 	window.changeFontSize = () => {
@@ -281,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				throw new Error(`HTTP ошибка! статус: ${response.status}`)
 			}
 			const result = await response.json()
-			alert(result.details)
+			alert(result.детали)
 			loadFiles() // Перезагрузить список файлов
 		} catch (error) {
 			console.error('Ошибка удаления файла:', error)
@@ -291,42 +291,3 @@ document.addEventListener('DOMContentLoaded', () => {
 	// Initial load of files
 	loadFiles()
 })
-
-
-const modalController = () => {
-  const buttonElem = document.querySelector('.section__button');
-  const modalElem = document.querySelector('.modal');
-
-  modalElem.style.cssText =`
-    display: flex;
-    visibility: hidden;
-    opacity: 0
-    transition: opacity 300ms ease-in-out;
-  `;
-
-  const closeModal = event =>{
-    const target = event.target;
-
-    if(target === modalElem || target.closest('.modal__close')){
-      modalElem.style.opacity = 0;
-
-      setTimeout(() => {
-        modalElem.style.visibility = 'hidden';
-      }, 300)
-    }
-  }
-
-  const openModal = () => {
-    modalElem.style.visibility = 'visible';
-    modalElem.style.opacity = 1;
-  };
-
-  buttonElem.addEventListener('click', openModal);
-  modalElem.addEventListener('click', closeModal);
-}
-
-modalController({
-  modal: '.modal',
-  btnOpen: '.section__button',
-  btnClose: '.modal__close',
-});

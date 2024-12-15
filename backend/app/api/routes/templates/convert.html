@@ -3,53 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Конвертация LaTeX</title>
-    <link rel="stylesheet" href="{{url_for('static', path='css/convert.css')}}">
-    <link rel="icon" href="{{url_for('static', path='photo/ROS.png')}}" type="image/png">
+    <title>Конвертация LaTeX в Word</title>
+    <link rel="stylesheet" href="/static/css/convert.css">
+    <link rel="icon" href="/static/photo/ROS.png" type="image/png">
 </head>
 <body>
     <header>
         <div class="logo-container">
-            <img src="../photo/ROS.png" alt="Росатом" class="logo">
+            <img src="/static/photo/ROS.png" alt="Росатом" class="logo">
             <h1>MIRE/A\TOM команда "Байт-team"</h1>
         </div>
     </header>
 
     <div class="convert-container">
         <h2>Конвертация LaTeX в Word</h2>
-        <textarea id="latexInput" rows="10" cols="50" placeholder="Введите LaTeX код здесь..."></textarea>
-        <br>
-        <button onclick="convertToWord()">Конвертировать в Word</button>
+
+        <!-- Список LaTeX файлов на сервере -->
+        <h3>Доступные LaTeX файлы:</h3>
+        <ul id="latexFileList">
+            <!-- Список файлов будет загружен сюда -->
+        </ul>
+
+        <!-- Кнопка для конвертации -->
+        <button onclick="convertSelectedFile()">Конвертировать в Word</button>
         <h3>Результат:</h3>
         <div id="result" class="result"></div>
     </div>
+
     <script>
-        async function convertToWord() {
-            const latexCode = document.getElementById('latexInput').value;
-            if (!latexCode) {
-                alert('Пожалуйста, введите LaTeX код.');
+        // Загрузка списка файлов LaTeX с сервера
+        async function loadLatexFiles() {
+            try {
+                const response = await fetch('http://localhost:8000/api/v1/latex/get-latex-files');
+                if (!response.ok) {
+                    throw new Error(`Ошибка загрузки файлов: ${response.status}`);
+                }
+                const files = await response.json();
+                const fileListElement = document.getElementById('latexFileList');
+
+                files.forEach(file => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = file;
+                    listItem.onclick = function() {
+                        // Отметить файл для конвертации
+                        selectFile(file);
+                    };
+                    fileListElement.appendChild(listItem);
+                });
+            } catch (error) {
+                console.error('Ошибка получения LaTeX файлов:', error);
+            }
+        }
+
+        // Переменная для хранения выбранного файла
+        let selectedFile = null;
+
+        // Функция для выбора файла
+        function selectFile(fileName) {
+            selectedFile = fileName;
+            alert(`Вы выбрали файл: ${fileName}`);
+        }
+
+        // Конвертация выбранного файла в формат Word
+        async function convertSelectedFile() {
+            if (!selectedFile) {
+                alert('Пожалуйста, выберите LaTeX файл для конвертации.');
                 return;
             }
 
             try {
-                const response = await fetch('http://localhost:8000/api/v1/latex/convert-latex-to-word', {
+                const response = await fetch('http://localhost:8000/api/v1/latex/convert-latex-file-to-word', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ latex_code: latexCode })
+                    body: JSON.stringify({ file_name: selectedFile })
                 });
 
                 if (!response.ok) {
-                    throw new Error(`HTTP ошибка! статус: ${response.status}`);
+                    throw new Error(`Ошибка конвертации: ${response.status}`);
                 }
 
-                const result = await response.json();
-                document.getElementById('result').innerHTML = result.word_content;
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+
+                // Создаем ссылку для скачивания
+                const downloadLink = document.createElement('a');
+                downloadLink.href = url;
+                downloadLink.download = "converted_output.docx";
+                downloadLink.innerText = "Скачать файл DOCX";
+                
+                // Очистка предыдущего результата и добавление ссылки для скачивания
+                document.getElementById('result').innerHTML = '';
+                document.getElementById('result').appendChild(downloadLink);
+
             } catch (error) {
                 console.error('Ошибка конвертации:', error);
             }
         }
+
+        // Загрузить LaTeX файлы при загрузке страницы
+        window.onload = loadLatexFiles;
     </script>
 </body>
 </html>

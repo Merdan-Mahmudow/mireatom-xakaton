@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MIRE/A\TOM</title>
-    <link rel="stylesheet" href="{{url_for('static', path='css/styles.css')}}">
+    <link rel="stylesheet" href="/static/css/styles.css">
     <link rel="icon" href="/static/photo/ROS.png" type="image/png">
+    <script src="/static/js/polyfill.min.js"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
     <header>
@@ -47,7 +49,7 @@
                 <button class="toolbar-button" id="imageButton" onclick="insertImage()"><img src="/static/photo/image.svg" alt="Фотография"></button>
                 <button class="toolbar-button" id="tableButton" onclick="createTable()"><img src="/static/photo/table.svg" alt="Таблица"></button>
                 <button class="toolbar-button" id="codeButton" onclick="insertCode()"><img src="/static/photo/code.svg" alt="Код"></button>
-                <button class="section__button section__button1"><img src="/static/photo/formula.svg" alt="Формула"></button>
+                <button class="toolbar-button" id="formulaButton" onclick="openFormulaPage()"><img src="/static/photo/formula.svg" alt="Формула"></button>
                 <button class="toolbar-button" id="convertButton" onclick="openConvertPage()"><img src="/static/photo/convert.svg" alt="Конвертация LaTeX в Word"></button>
                 <button class="toolbar-button" id="instructionButton" onclick="openInstructionPage()"><img src="/static/photo/instruction.svg" alt="Инструктаж/Режим обучения"></button>
                 <select id="fontSizeSelect" class="font-select" onchange="changeFontSize()">
@@ -67,91 +69,38 @@
                     <option value="Georgia">Georgia</option>
                 </select>
                 <button class="toolbar-button save-button" onclick="saveContent()">Сохранить</button>
+                <button class="toolbar-button" id="graphButton" onclick="goToGraphPage()">Построить график</button>
             </div>
-            <div class="modal">
-                <div class="modal__main">
-                  <h2 class="modal__title">Редактор формул</h2>
-                  <div class="modal__container">
-                    <div class="modal_group">
-                        <button class="modal__group1__btn">abc</button>
-                        <div class="modal__group1">
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>a</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>b</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>c</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>d</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>e</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>f</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>g</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>h</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>i</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>j</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>k</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>l</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>m</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>n</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>o</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>p</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>q</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>r</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>s</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>t</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>u</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>v</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>w</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>x</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>y</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>z</b></button>
-                        </div>
-                        <div class="modal__group2">
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>|abc|</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>𝄖</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>√</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>▢²</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>10^▢</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>ƒ</b></button>
-                        </div>
-                        <button class="modal__group3__btn">grec</button>
-                        <div class="modal__group3">
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>α</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>β</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>γ</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>δ</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>ε</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>ζ</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>η</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>θ</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>ι</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>κ</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>λ</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>μ</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>ν</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>ξ</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>ο</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>π</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>ρ</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>ς</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>τ</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>υ</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>φ</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>χ</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>ψ</b></button>
-                            <button class="modal__group__btn" id="boldButton" onclick="#"><b>ω</b></button>
-                        </div>
-                    </div>
-                    <div class="content" contenteditable="true" id="content">
-                        <!-- Содержимое файла будет отображаться здесь -->
-                    </div>
-                  </div>
-            
-                  <button class="modal__close">&#10006;</button>
-            
-                </div>
-              </div>
             <div class="content" contenteditable="true" id="content">
                 <!-- Содержимое файла будет отображаться здесь -->
             </div>
         </div>
     </div>
+    <script>
+        // Переход на страницу с графиком
+        function goToGraphPage() {
+            window.location.href = 'http:skyrodev.ru:8000/graph';  // Перенаправление на страницу с графиком
+        }
+
+        // Параметры для вставки формул
+        function insertFormula(formula, cursorPosition) {
+            const content = document.getElementById('content');
+            const range = window.getSelection().getRangeAt(0);
+            const formulaElement = document.createElement('span');
+            formulaElement.innerHTML = `\\(${formula}\\)`;
+            range.insertNode(formulaElement);
+            MathJax.typesetPromise([formulaElement]).then(() => {
+                console.log('Formula rendered');
+                // Set the cursor position after the inserted formula
+                const newRange = document.createRange();
+                newRange.setStartAfter(formulaElement);
+                newRange.collapse(true);
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(newRange);
+            });
+        }
+    </script>
     <script src="/static/js/script.js"></script>
 </body>
 </html>
