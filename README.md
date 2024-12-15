@@ -1,13 +1,10 @@
-# FastAPI Project - Development
+# MIRE/A\TOM - Development
 
 ## Docker Compose
 
-* Start the local stack with Docker Compose:
+* Запуск на localhost.
+*  Docker Compose:
 
 ```bash
 docker compose watch
 ```
-# mireatom
-# mireatom
-# mireatom
-# mireatom-xakaton
