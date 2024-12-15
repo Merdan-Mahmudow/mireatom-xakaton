@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		formData.append('file', fileInput.files[0])
 
 		try {
-			const response = await fetch('http://localhost:8000/api/v1/latex/upload', {
+			const response = await fetch('http://skyrodev.ru:8000/api/v1/latex/upload', {
 				method: 'POST',
 				body: formData,
 			})
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	// Load available files
 	const loadFiles = async () => {
 		try {
-			const response = await fetch('http://localhost:8000/api/v1/latex/get-all-files')
+			const response = await fetch('http://skyrodev.ru:8000/api/v1/latex/get-all-files')
 			if (!response.ok) {
 				throw new Error(`HTTP ошибка! статус: ${response.status}`)
 			}
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const loadFileContent = async fileName => {
 		try {
 			const response = await fetch(
-				`http://localhost:8000/api/v1/latex/get-latex?file_name=${fileName}`
+				`http://skyrodev.ru:8000/api/v1/latex/get-latex?file_name=${fileName}`
 			)
 			if (!response.ok) {
 				throw new Error(`HTTP ошибка! статус: ${response.status}`)
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			return
 		}
 		try {
-			const response = await fetch(`http://localhost:8000/api/v1/latex/update-latex`, {
+			const response = await fetch(`http://skyrodev.ru:8000/api/v1/latex/update-latex`, {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json',
@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	window.deleteFile = async fileName => {
 		try {
 			const response = await fetch(
-				`http://localhost:8000/api/v1/latex/delete-file?file_name=${fileName}`,
+				`http://skyrodev.ru:8000/api/v1/latex/delete-file?file_name=${fileName}`,
 				{
 					method: 'DELETE',
 				}

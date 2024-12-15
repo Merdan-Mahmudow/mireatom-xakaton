@@ -34,7 +34,7 @@
         // Загрузка списка файлов LaTeX с сервера
         async function loadLatexFiles() {
             try {
-                const response = await fetch('http://localhost:8000/api/v1/latex/get-latex-files');
+                const response = await fetch('http://skyrodev.ru:8000/api/v1/latex/get-latex-files');
                 if (!response.ok) {
                     throw new Error(`Ошибка загрузки файлов: ${response.status}`);
                 }
@@ -72,7 +72,7 @@
             }
 
             try {
-                const response = await fetch('http://localhost:8000/api/v1/latex/convert-latex-file-to-word', {
+                const response = await fetch('http://skyrodev.ru:8000/api/v1/latex/convert-latex-file-to-word', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
